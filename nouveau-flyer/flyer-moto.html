@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Govo — Le permis moto</title>
+<style>
+@font-face{font-family:Outfit;font-weight:100 900;src:url(fonts/outfit-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Outfit;font-weight:100 900;src:url(fonts/outfit-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+
+/* Palette reprise de govo.fr */
+:root{
+  --ink:#100c36; --body:#3a3757; --muted:#5c5878; --muted-2:#6e6a8a;
+  --page:#f7f6fb; --card:#fff; --hairline:#eae8f4; --line:#dddaec;
+  --lilac:#6c5ce7; --lilac-deep:#4b3bc4; --lilac-soft:#f1effd; --lilac-on-dark:#c7bcff;
+  --pink:#f2478c; --pink-soft:#fdecf4; --pink-text:#b32e6e; --pink-border:#f8d2e4;
+  --green:#12a65a; --navy-2:#1b1550;
+  --r:5mm; --r-lg:7mm;
+}
+@page{size:A4;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#d9d7e3}
+body{font-family:Outfit,"Outfit Fallback",Arial,sans-serif;color:var(--body);-webkit-print-color-adjust:exact;print-color-adjust:exact;font-size:10pt;line-height:1.45}
+img{display:block;max-width:100%}
+b,strong{color:var(--ink);font-weight:600}
+
+.page{width:210mm;height:297mm;position:relative;overflow:hidden;background:var(--page);padding:15mm 14mm 14mm;margin:0 auto;break-after:page;display:flex;flex-direction:column}
+@media screen{.page{margin:8mm auto;box-shadow:0 2mm 8mm rgba(16,12,54,.18)}}
+.page:last-child{break-after:auto}
+
+/* Typo */
+.h1,.h2{font-weight:700;color:var(--ink);letter-spacing:-.035em;line-height:1.02}
+.h1{font-size:46pt}
+.h2{font-size:31pt}
+.h3{font-size:14pt;font-weight:600;color:var(--ink);letter-spacing:-.015em;line-height:1.2}
+.hl{color:var(--lilac)}
+.lead{font-size:11.5pt;color:var(--muted);line-height:1.5;max-width:150mm}
+.eyebrow{display:inline-flex;align-items:center;gap:1.6mm;align-self:flex-start;padding:1.3mm 3.2mm;border-radius:99px;background:var(--pink-soft);border:.3mm solid var(--pink-border);color:var(--pink-text);font-size:7.5pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.eyebrow.lilac{background:var(--lilac-soft);border-color:#dcd6fb;color:var(--lilac-deep);letter-spacing:.02em;text-transform:none;font-size:8.5pt;font-weight:600}
+.stack>*+*{margin-top:4mm}
+
+/* Composants */
+.card{background:var(--card);border:.3mm solid var(--hairline);border-radius:var(--r);padding:6mm}
+.icon-box{width:10mm;height:10mm;border-radius:2.6mm;background:var(--lilac-soft);color:var(--lilac);display:grid;place-items:center;flex:none}
+.icon-box svg{width:5mm;height:5mm}
+svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.checks{list-style:none}
+.checks li{display:flex;gap:2.4mm;align-items:flex-start;padding:1.1mm 0}
+.checks li svg{width:4mm;height:4mm;color:var(--green);flex:none;margin-top:.5mm;stroke-width:2.6}
+.photo{border-radius:var(--r-lg);overflow:hidden;position:relative;background:#ddd}
+.photo img{width:100%;height:100%;object-fit:cover}
+.btn{display:inline-flex;align-items:center;gap:2mm;background:var(--ink);color:#fff;border-radius:99px;padding:2.6mm 5.5mm;font-weight:600;font-size:10pt}
+.folio{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;justify-content:space-between;align-items:center;font-size:7.5pt;color:var(--muted-2);letter-spacing:.02em}
+.folio .n{display:inline-flex;align-items:center;gap:1.6mm;font-weight:600;color:var(--ink)}
+.folio .n::before{content:"";width:1.8mm;height:1.8mm;border-radius:50%;background:var(--lilac)}
+.dark .folio,.dark .folio .n{color:#b9b4d6}
+.price{font-weight:700;color:var(--ink);letter-spacing:-.04em;line-height:1}
+.price small{font-size:.42em;letter-spacing:0;margin-left:.6mm}
+.green{color:var(--green);font-weight:600}
+
+/* P1 couverture */
+.cover-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6mm}
+.cover-top .logo{height:15mm}
+.cover .photo{flex:1;min-height:0}
+.cover .photo img{object-position:50% 40%}
+.rating{position:absolute;top:5mm;left:5mm;display:flex;align-items:center;gap:1.8mm;background:rgba(255,255,255,.94);border-radius:99px;padding:1.8mm 3.6mm;font-size:8.5pt;font-weight:600;color:var(--ink)}
+.stars{display:inline-flex;gap:.5mm;color:#f5b400}
+.stars svg{width:3.2mm;height:3.2mm;fill:currentColor}
+.cover-text{padding-top:7mm}
+.cover-text .h1{font-size:50pt;margin:3.5mm 0 3.5mm}
+.cover-chips{display:flex;gap:2.5mm;margin-top:6mm}
+.chip{flex:1;display:flex;align-items:center;gap:2.6mm;background:#fff;border:.3mm solid var(--hairline);border-radius:4mm;padding:3mm 3.4mm;font-size:8.8pt;line-height:1.25;color:var(--muted)}
+.chip b{display:block;font-size:10pt}
+.chip .icon-box{width:8.5mm;height:8.5mm}
+.chip .icon-box svg{width:4.2mm;height:4.2mm}
+
+/* P2 */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-top:9mm}
+.features .card{padding:5.5mm}
+.features .h3{margin:4.5mm 0 1.8mm;font-size:12.5pt}
+.features p{font-size:9pt;color:var(--muted);line-height:1.5}
+.p2 .photo{flex:1;margin-top:8mm}
+.p2 .photo img{object-position:60% 30%}
+.stat-card{position:absolute;right:5mm;bottom:5mm;background:#fff;border-radius:4.5mm;padding:4mm 5.5mm;box-shadow:0 2mm 6mm rgba(16,12,54,.14)}
+.stat-card .price{font-size:24pt}
+.stat-card span{font-size:8.5pt;color:var(--muted)}
+
+/* P3 tarifs */
+.bikes{display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:8mm}
+.bike{display:flex;align-items:center;gap:3mm;padding:3.5mm 4.5mm 3.5mm 3mm}
+.bike img{width:42mm;height:32mm;object-fit:cover;border-radius:3mm}
+.bike .h3{font-size:15pt}
+.bike .tag{display:inline-block;font-size:7.5pt;font-weight:600;color:var(--lilac-deep);background:var(--lilac-soft);border-radius:99px;padding:.6mm 2.4mm;margin:1mm 0 1.2mm}
+.bike p{font-size:9.2pt;color:var(--muted);line-height:1.35}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:3.5mm;margin-top:10mm;align-items:stretch;flex:1;max-height:118mm}
+.plan{position:relative;display:flex;flex-direction:column;padding:6mm 4.8mm 5mm}
+.plan.featured{border:.5mm solid var(--lilac);box-shadow:0 2mm 7mm rgba(108,92,231,.16)}
+.plan .badge{position:absolute;top:-3mm;left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--pink);color:#fff;font-size:6.6pt;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:99px;padding:1mm 3mm}
+.plan .name{font-size:11pt;font-weight:600;color:var(--ink);text-transform:uppercase;letter-spacing:.005em;line-height:1.25;min-height:9mm}
+.plan .sub{font-size:9pt;color:var(--muted);margin-top:.8mm}
+.plan .price{font-size:38pt;margin:5.5mm 0 1.5mm}
+.plan .green{font-size:8.2pt}
+.plan .checks{margin-top:4.5mm;font-size:9pt;line-height:1.38;flex:1}
+.plan .checks li{padding:1.3mm 0}
+.plan .btn{justify-content:center;margin-top:4mm;padding:2.8mm 0;font-size:9.5pt}
+.plan:not(.featured) .btn{background:#fff;color:var(--ink);border:.3mm solid var(--line)}
+.included{display:flex;align-items:center;gap:4mm;margin-top:8mm;background:var(--ink);color:#fff;border-radius:var(--r);padding:5mm 6mm}
+.included .icon-box{background:rgba(255,255,255,.1);color:var(--lilac-on-dark)}
+.included p{font-size:12pt;font-weight:600;line-height:1.3;letter-spacing:-.01em}
+.included p span{color:var(--lilac-on-dark)}
+.footnote{font-size:7.3pt;color:var(--muted-2);margin-top:4mm;line-height:1.4}
+
+/* P4 accéléré */
+.p4 .photo{flex:1;min-height:0;margin-top:7mm}
+.p4 .photo img{object-position:50% 55%}
+.fast{display:flex;gap:6mm;align-items:center;margin-top:5mm;padding:8mm 8mm;flex:none}
+.fast .h2{font-size:26pt;line-height:1.05}
+.fast .checks{display:grid;grid-template-columns:1fr 1fr;column-gap:5mm;margin-top:5mm;font-size:10.5pt}
+.fast .left{flex:1}
+.fast .right{width:44mm;flex:none;text-align:center;background:var(--lilac-soft);border-radius:4.5mm;padding:5.5mm 3mm}
+.fast .right .price{font-size:40pt}
+.fast .right .green{font-size:8pt;display:block;margin-top:2mm;line-height:1.35}
+.fast .right .lbl{font-size:7.5pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lilac-deep);margin-bottom:2mm}
+
+/* P5 pleine photo */
+.p5{padding:0}
+.p5 .photo{position:absolute;inset:0;border-radius:0}
+.p5 .photo img{object-position:55% 40%}
+.p5 .shade{position:absolute;inset:auto 0 0 0;height:150mm;background:linear-gradient(to top,rgba(16,12,54,.96) 0%,rgba(16,12,54,.85) 38%,rgba(16,12,54,.4) 72%,rgba(16,12,54,0))}
+.p5 .over{position:absolute;left:14mm;right:14mm;bottom:22mm;color:#fff}
+.p5 .over .h2{color:#fff;font-size:34pt;margin:4mm 0 3mm}
+.p5 .over .h2 span{color:var(--lilac-on-dark)}
+.p5 .over p{font-size:11.5pt;color:#dcd8f2;max-width:140mm}
+.p5 .eyebrow{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:#fff}
+.p5 .folio,.p5 .folio .n{color:#cfcae8}
+
+/* P6 */
+.hero-band{background:var(--ink);border-radius:var(--r-lg);padding:11mm 9mm 10mm;position:relative;overflow:hidden}
+.hero-band::after{content:"";position:absolute;width:90mm;height:90mm;right:-28mm;top:-40mm;border-radius:50%;background:radial-gradient(circle,rgba(108,92,231,.55),rgba(108,92,231,0) 68%)}
+.hero-band .h2{color:#fff;position:relative;z-index:1}
+.hero-band .h2 span{color:var(--lilac-on-dark)}
+.hero-band p{position:relative;z-index:1;color:#c9c4e6;margin-top:3mm;font-size:11pt}
+.adv{margin-top:6mm;padding:3mm 6mm}
+.adv li{display:flex;align-items:center;gap:4mm;padding:3.3mm 0;font-size:11pt;color:var(--muted)}
+.adv li+li{border-top:.3mm solid var(--hairline)}
+.adv li .icon-box{width:9mm;height:9mm;border-radius:2.4mm}
+.adv li .icon-box svg{width:4.4mm;height:4.4mm}
+.more{align-self:flex-end;display:flex;align-items:center;gap:2mm;margin-top:3.5mm;font-weight:600;color:var(--lilac-deep);font-size:10.5pt}
+.more svg{width:4.5mm;height:4.5mm}
+.p6 .photo{flex:1;margin-top:5mm}
+.p6 .photo img{object-position:60% 35%}
+
+/* P7 appli (page sombre) */
+.dark{background:var(--ink);color:#c9c4e6}
+.dark::before{content:"";position:absolute;width:160mm;height:160mm;left:-60mm;bottom:-50mm;border-radius:50%;background:radial-gradient(circle,rgba(108,92,231,.45),rgba(108,92,231,0) 65%)}
+.dark::after{content:"";position:absolute;width:120mm;height:120mm;right:-50mm;top:-40mm;border-radius:50%;background:radial-gradient(circle,rgba(242,71,140,.22),rgba(242,71,140,0) 65%)}
+.dark>*{position:relative;z-index:1}
+.dark>.folio{position:absolute}
+.dark .h2{color:#fff}
+.dark .h2 span{color:var(--lilac-on-dark)}
+.dark .eyebrow{background:rgba(242,71,140,.14);border-color:rgba(242,71,140,.35);color:#f9a8d4}
+.app-grid{display:grid;grid-template-columns:96mm 1fr;gap:6mm;margin-top:10mm;flex:1;min-height:0}
+.phones{position:relative}
+.phones img{position:absolute;filter:drop-shadow(0 4mm 7mm rgba(0,0,0,.45))}
+.phones .a{width:68mm;left:0;top:0}
+.phones .b{width:62mm;left:36mm;top:98mm}
+.feat-list{list-style:none;display:flex;flex-direction:column;gap:3mm;align-self:start}
+.feat-list li{display:flex;align-items:center;gap:3mm;background:rgba(255,255,255,.06);border:.3mm solid rgba(255,255,255,.1);border-radius:3.5mm;padding:4mm 4mm;color:#fff;font-weight:500;font-size:11pt}
+.feat-list li svg{width:4.2mm;height:4.2mm;color:#6ee7a7;stroke-width:2.6;flex:none}
+.stores-mini{display:flex;gap:2.5mm;margin-top:7mm}
+.stores-mini img{height:11mm;border-radius:2mm}
+
+/* P8 tarifs attractifs */
+.p8 .h1{font-size:54pt;margin-top:4mm}
+.p8 .photo{flex:1;margin-top:8mm;background:#bdbac6}
+.p8 .photo img{object-position:50% 18%}
+.price-pills{position:absolute;left:5mm;right:5mm;bottom:5mm;display:grid;grid-template-columns:repeat(3,1fr);gap:3mm}
+.pp{background:rgba(255,255,255,.95);border-radius:4.5mm;padding:3.6mm 4mm;box-shadow:0 2mm 6mm rgba(16,12,54,.15)}
+.pp span{display:block;font-size:7.8pt;color:var(--muted);line-height:1.3}
+.pp .price{font-size:20pt;margin-top:1mm}
+.pp .price small{font-size:.5em}
+
+/* P9 tarifs détaillés */
+.sec-title{display:flex;align-items:baseline;justify-content:space-between;gap:4mm}
+.sec-title .h2{font-size:28pt}
+.sec-title>span{font-size:8.5pt;color:var(--muted-2)}
+.carte{margin-top:4mm;padding:1.5mm 6mm}
+.carte .row{display:flex;align-items:center;gap:4mm;padding:4.2mm 0}
+.carte .row+.row{border-top:.3mm solid var(--hairline)}
+.carte .row .t{flex:1}
+.carte .row b{font-size:11.5pt;display:block}
+.carte .row .t span{font-size:9.3pt;color:var(--muted);line-height:1.35;display:block;margin-top:.3mm}
+.carte .row .price{font-size:20pt}
+.carte .row .price small{font-size:.55em}
+.carte .icon-box{width:9mm;height:9mm}
+.carte .icon-box svg{width:4.6mm;height:4.6mm}
+.unite{margin-top:4mm;padding:3mm 6mm;display:grid;grid-template-columns:1fr 1fr;column-gap:9mm}
+.unite .row{display:flex;justify-content:space-between;align-items:baseline;gap:3mm;padding:2.9mm 0;border-bottom:.3mm dashed var(--line);font-size:10pt;color:var(--body)}
+.unite .row:nth-last-child(-n+1){border-bottom:0}
+.unite .row b{font-size:10.8pt;white-space:nowrap}
+
+/* P10 documents */
+.docs{margin-top:7mm;display:flex;flex-direction:column;gap:3.4mm}
+.doc{display:flex;gap:5mm;align-items:flex-start;padding:5.2mm 6mm}
+.doc .num{flex:none;width:9mm;height:9mm;border-radius:50%;background:var(--lilac-soft);color:var(--lilac-deep);font-weight:700;font-size:10pt;display:grid;place-items:center}
+.doc b{display:block;font-size:12pt;margin-bottom:1mm}
+.doc p{font-size:10pt;color:var(--muted);line-height:1.45}
+.opt{display:inline-block;font-size:7pt;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--pink-text);background:var(--pink-soft);border-radius:99px;padding:.4mm 2mm;margin-left:1.5mm;vertical-align:1px}
+
+/* P11 contact */
+.contact-head{display:flex;justify-content:space-between;align-items:flex-end;gap:6mm}
+.mail-pill{display:inline-flex;align-items:center;gap:2.2mm;background:var(--ink);color:#fff;border-radius:99px;padding:2.8mm 5mm;font-weight:600;font-size:10.5pt;white-space:nowrap}
+.mail-pill svg{width:4.2mm;height:4.2mm}
+.agencies{display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:7mm}
+.agency{padding:6mm 6mm 5mm}
+.agency .h3{font-size:14pt;display:flex;align-items:center;gap:2mm}
+.agency .h3 .dot{width:2mm;height:2mm;border-radius:50%;background:var(--pink)}
+.agency ul{list-style:none;margin-top:3.2mm;font-size:9.6pt}
+.agency li{display:flex;gap:2.4mm;align-items:flex-start;padding:1.2mm 0;color:var(--body);line-height:1.35}
+.agency li svg{width:3.6mm;height:3.6mm;color:var(--lilac);flex:none;margin-top:.4mm}
+.agency .legal{margin-top:3mm;padding-top:3mm;border-top:.3mm solid var(--hairline);font-size:7.6pt;color:var(--muted-2);line-height:1.45}
+.app-row{display:grid;grid-template-columns:1fr 78mm;gap:4mm;margin-top:4mm;flex:1;min-height:0}
+.app-cta{background:var(--lilac-soft);border:.3mm solid #e2dcfb;display:flex;flex-direction:column;justify-content:center}
+.app-cta .h2{font-size:23pt}
+.app-cta p{font-size:10pt;color:var(--muted);margin-top:2mm;max-width:80mm}
+.stores{display:flex;gap:3mm;margin-top:5mm}
+.stores img{height:12.5mm;border-radius:2.2mm}
+.p11 .photo img{object-position:50% 30%}
+
+/* P12 dos */
+.p12 .photo{flex:1;min-height:0}
+.p12 .photo img{object-position:50% 55%}
+.back-row{display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:4mm;height:80mm}
+.back-logo{background:#fff;border:.3mm solid var(--hairline);border-radius:var(--r-lg);display:flex;flex-direction:column;justify-content:space-between;padding:7mm}
+.back-logo img{width:70mm}
+.back-logo p{font-size:9pt;color:var(--muted)}
+.back-claim{background:var(--ink);border-radius:var(--r-lg);color:#fff;padding:7mm;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.back-claim::after{content:"";position:absolute;width:80mm;height:80mm;right:-30mm;bottom:-40mm;border-radius:50%;background:radial-gradient(circle,rgba(108,92,231,.6),rgba(108,92,231,0) 68%)}
+.back-claim>*{position:relative;z-index:1}
+.back-claim .h2{color:#fff;font-size:27pt}
+.back-claim .h2 span{color:var(--lilac-on-dark)}
+.back-claim .mail-pill{background:#fff;color:var(--ink);align-self:flex-start}
+.back-foot{display:flex;justify-content:space-between;align-items:center;margin-top:4mm;font-size:8.5pt;font-weight:600;color:var(--ink)}
+.back-foot img{height:9mm}
+</style>
+</head>
+<body>
+
+<!-- Sprite d'icônes (style Lucide, comme sur govo.fr) -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="zap" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></symbol>
+    <symbol id="shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="swap" viewBox="0 0 24 24"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></symbol>
+    <symbol id="pin" viewBox="0 0 24 24"><path d="M20 10c0 4.99-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 14.99 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+    <symbol id="mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+    <symbol id="calendar" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></symbol>
+    <symbol id="card" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></symbol>
+    <symbol id="euro" viewBox="0 0 24 24"><path d="M4 10h12"/><path d="M4 14h9"/><path d="M19 6a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12c0 4.4 3.5 8 7.8 8 2 0 3.8-.8 5.2-2"/></symbol>
+    <symbol id="badge" viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="map" viewBox="0 0 24 24"><path d="M14.1 4.4a2 2 0 0 0-1.8 0L9.7 5.7a2 2 0 0 1-1.8 0L3.4 3.5A1 1 0 0 0 2 4.4v12.4a1 1 0 0 0 .6.9l4.8 2.4a2 2 0 0 0 1.8 0l2.6-1.3a2 2 0 0 1 1.8 0l4.5 2.2a1 1 0 0 0 1.4-.9V7.2a1 1 0 0 0-.6-.9z"/><path d="M15 5.8v15M9 3.2v15"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    <symbol id="building" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2M10 6h4M10 10h4M10 14h4M10 18h4"/></symbol>
+    <symbol id="moto" viewBox="0 0 24 24"><circle cx="5" cy="16" r="3"/><circle cx="19" cy="16" r="3"/><path d="M5 16h5l3-5h4l2 5"/><path d="M13 11 11.5 7H9"/><path d="M15.5 7h2l1 4"/></symbol>
+    <symbol id="scooter" viewBox="0 0 24 24"><circle cx="5.5" cy="17" r="2.5"/><circle cx="18.5" cy="17" r="2.5"/><path d="M8 17h7.5l1.5-4-3-7h2"/><path d="M3 14h7l1-3h3"/></symbol>
+    <symbol id="quad" viewBox="0 0 24 24"><path d="M5 17H3v-4l2-5h10l4 5h2v4h-2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M9 17h6M6 13h14"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2zM22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============ 1 · COUVERTURE ============ -->
+<section class="page cover">
+  <div class="cover-top">
+    <img class="logo" src="assets/logo.png" alt="Govo Auto Moto École">
+    <span class="eyebrow lilac">Moto-école · Paris &amp; Hauts-de-Seine</span>
+  </div>
+  <div class="photo">
+    <img src="assets/cover.jpg" alt="">
+    <div class="rating"><span class="stars"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"/></svg></span> 4,9 · + de 1 000 avis</div>
+  </div>
+  <div class="cover-text">
+    <span class="eyebrow">Permis A2 · Maxi-Scoot · Accéléré</span>
+    <h1 class="h1">Le permis moto<br>avec <span class="hl">Govo</span>.</h1>
+    <p class="lead">Obtenez votre permis moto, à votre rythme ou rapidement, tout en sécurité au sein d’un circuit privé de 1700 m².</p>
+    <div class="cover-chips">
+      <div class="chip"><span class="icon-box"><svg class="i"><use href="#map"/></svg></span><div><b>1700 m²</b>de circuit privé</div></div>
+      <div class="chip"><span class="icon-box"><svg class="i"><use href="#zap"/></svg></span><div><b>3 ou 5 jours</b>en formule accélérée</div></div>
+      <div class="chip"><span class="icon-box"><svg class="i"><use href="#card"/></svg></span><div><b>4x sans frais</b>paiement via Floa</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2 · SIMPLICITÉ ============ -->
+<section class="page p2">
+  <span class="eyebrow">La moto-école Govo</span>
+  <h2 class="h2" style="margin:4mm 0 4mm">Deviens motard en toute <span class="hl">simplicité</span>.</h2>
+  <p class="lead">Obtenez votre permis moto, à votre rythme ou rapidement (en 3 ou 5 jours), tout en sécurité au sein d’un circuit privé de 1700 m².</p>
+  <div class="features">
+    <div class="card">
+      <span class="icon-box"><svg class="i"><use href="#zap"/></svg></span>
+      <h3 class="h3">Rapide et flexible</h3>
+      <p>En 3 ou 5 jours, bénéficiez d’une formation accélérée, passez votre permis et naviguez en toute sécurité sur le bitume !</p>
+    </div>
+    <div class="card">
+      <span class="icon-box"><svg class="i"><use href="#shield"/></svg></span>
+      <h3 class="h3">Sécurité et confort</h3>
+      <p>Un circuit privé de 1700 m² pour vous entraîner, pour que vos heures de conduite soient le plus loin possible du trafic routier.</p>
+    </div>
+    <div class="card">
+      <span class="icon-box"><svg class="i"><use href="#swap"/></svg></span>
+      <h3 class="h3">Automatique ou manuel ?</h3>
+      <p>Personne ne vous jugera ! Choisissez le véhicule sur lequel vous souhaitez rouler à l’avenir et en avant !</p>
+    </div>
+  </div>
+  <div class="photo">
+    <img src="assets/casque.jpg" alt="">
+    <div class="stat-card"><div class="price">1700 m²</div><span>de circuit privé, loin du trafic</span></div>
+  </div>
+  <div class="folio"><span>Govo · Le permis moto</span><span class="n">2</span></div>
+</section>
+
+<!-- ============ 3 · FORMULES ============ -->
+<section class="page p3">
+  <span class="eyebrow">Nos formules</span>
+  <h2 class="h2" style="margin:4mm 0 3mm">Deux motos, le même <span class="hl">apprentissage</span> !</h2>
+  <p class="lead">Boîte manuelle ou automatique : choisissez la formule qui vous correspond.</p>
+
+  <div class="bikes">
+    <div class="card bike">
+      <img src="assets/roadster.jpg" alt="">
+      <div><h3 class="h3">Honda CB-500</h3><span class="tag">Boîte manuelle</span><p>Robuste, polyvalente et endurante.</p></div>
+    </div>
+    <div class="card bike">
+      <img src="assets/maxiscoot.jpg" alt="">
+      <div><h3 class="h3">T-Max</h3><span class="tag">Boîte automatique</span><p>Élégant et performant, le roi de la ville.</p></div>
+    </div>
+  </div>
+
+  <div class="plans">
+    <div class="card plan">
+      <div class="name">Permis moto A2</div>
+      <div class="sub">Formule 20 leçons</div>
+      <div class="price">690<small>€</small></div>
+      <div class="green">ou 4 × 172,50 € sans frais</div>
+      <ul class="checks">
+        <li><svg class="i"><use href="#check"/></svg>20 leçons</li>
+        <li><svg class="i"><use href="#check"/></svg>Honda CB-500, boîte manuelle</li>
+        <li><svg class="i"><use href="#check"/></svg>Toutes les motos pilotables jusqu’à 35 kW (47,5 ch)</li>
+        <li><svg class="i"><use href="#check"/></svg>Examens Plateau &amp; Circulation</li>
+      </ul>
+      <span class="btn">Je m’inscris</span>
+    </div>
+    <div class="card plan featured">
+      <span class="badge">Boîte automatique</span>
+      <div class="name">Permis moto A2 Maxi-Scoot</div>
+      <div class="sub">Formule 20 leçons</div>
+      <div class="price">749<small>€</small></div>
+      <div class="green">ou 4 × 187,25 € sans frais</div>
+      <ul class="checks">
+        <li><svg class="i"><use href="#check"/></svg>20 leçons</li>
+        <li><svg class="i"><use href="#check"/></svg>T-Max, boîte automatique</li>
+        <li><svg class="i"><use href="#check"/></svg>Apprentissage sur Maxi-Scoot* (47,5 ch)</li>
+        <li><svg class="i"><use href="#check"/></svg>Examens Plateau &amp; Circulation</li>
+      </ul>
+      <span class="btn">Je m’inscris</span>
+    </div>
+    <div class="card plan">
+      <div class="name">Permis moto A2</div>
+      <div class="sub">Formule 30 leçons</div>
+      <div class="price">1090<small>€</small></div>
+      <div class="green">ou 4 × 272,50 € sans frais</div>
+      <ul class="checks">
+        <li><svg class="i"><use href="#check"/></svg>30 leçons</li>
+        <li><svg class="i"><use href="#check"/></svg>Honda CB-500, boîte manuelle</li>
+        <li><svg class="i"><use href="#check"/></svg>Toutes les motos pilotables jusqu’à 35 kW (47,5 ch)</li>
+        <li><svg class="i"><use href="#check"/></svg>Examens Plateau &amp; Circulation</li>
+      </ul>
+      <span class="btn">Je m’inscris</span>
+    </div>
+  </div>
+
+  <div class="included">
+    <span class="icon-box"><svg class="i"><use href="#badge"/></svg></span>
+    <p>L’examen Plateau et l’examen Circulation <span>sont compris dans chaque formule.</span></p>
+  </div>
+  <p class="footnote">*Possibilité de piloter uniquement des motos A2 à boîte automatique une fois votre permis obtenu. Photos non contractuelles.</p>
+  <div class="folio"><span>Govo · Le permis moto</span><span class="n">3</span></div>
+</section>
+
+<!-- ============ 4 · ACCÉLÉRÉ ============ -->
+<section class="page p4">
+  <span class="eyebrow">Formules accélérées</span>
+  <h2 class="h2" style="margin:4mm 0 3mm">Pressé(e) ?</h2>
+  <p class="lead">Vous souhaitez passer rapidement votre permis moto ? Govo vous propose de le faire en <b>3 ou 5 jours</b> !</p>
+  <div class="photo"><img src="assets/circuit.jpg" alt=""></div>
+
+  <div class="card fast">
+    <div class="left">
+      <h3 class="h2">Permis Moto Accéléré <span class="hl">3 jours</span></h3>
+      <ul class="checks">
+        <li><svg class="i"><use href="#check"/></svg><b>21 leçons</b></li>
+        <li><svg class="i"><use href="#check"/></svg><b>Examen Circulation</b></li>
+        <li><svg class="i"><use href="#check"/></svg><b>Examen Plateau</b></li>
+        <li><svg class="i"><use href="#check"/></svg><b>Paiement en 4x sans frais</b></li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="lbl">3 jours</div>
+      <div class="price">890<small>€</small></div>
+      <span class="green">ou 4 × 222,50 €<br>sans frais</span>
+    </div>
+  </div>
+
+  <div class="card fast">
+    <div class="left">
+      <h3 class="h2">Permis Moto Accéléré <span class="hl">5 jours</span></h3>
+      <ul class="checks">
+        <li><svg class="i"><use href="#check"/></svg><b>30 leçons</b></li>
+        <li><svg class="i"><use href="#check"/></svg><b>Examen Circulation</b></li>
+        <li><svg class="i"><use href="#check"/></svg><b>Examen Plateau</b></li>
+        <li><svg class="i"><use href="#check"/></svg><b>Paiement en 4x sans frais</b></li>
+      </ul>
+    </div>
+    <div class="right">
+      <div class="lbl">5 jours</div>
+      <div class="price">1190<small>€</small></div>
+      <span class="green">ou 4 × 297,50 €<br>sans frais</span>
+    </div>
+  </div>
+  <div class="folio"><span>Govo · Le permis moto</span><span class="n">4</span></div>
+</section>
+
+<!-- ============ 5 · PHOTO ============ -->
+<section class="page p5">
+  <div class="photo"><img src="assets/moniteur.jpg" alt=""></div>
+  <div class="shade"></div>
+  <div class="over">
+    <span class="eyebrow">Sécurité et confort</span>
+    <h2 class="h2">Apprenez sereinement, <span>sur circuit privé.</span></h2>
+    <p>1700 m² pour vous entraîner, pour que vos heures de conduite soient le plus loin possible du trafic routier.</p>
+  </div>
+  <div class="folio"><span>Govo · Le permis moto</span><span class="n">5</span></div>
+</section>
+
+<!-- ============ 6 · POURQUOI GOVO ============ -->
+<section class="page p6">
+  <div class="hero-band">
+    <span class="eyebrow" style="background:rgba(242,71,140,.16);border-color:rgba(242,71,140,.4);color:#f9a8d4">Pourquoi Govo</span>
+    <h2 class="h2" style="margin-top:4mm">Choisir Govo pour son permis moto, <span>c’est avoir :</span></h2>
+  </div>
+  <ul class="card adv" style="list-style:none">
+    <li><span class="icon-box"><svg class="i"><use href="#calendar"/></svg></span><span><b>Une date d’examen garantie</b></span></li>
+    <li><span class="icon-box"><svg class="i"><use href="#card"/></svg></span><span><b>Paiement en 4x sans frais</b> (via Floa)</span></li>
+    <li><span class="icon-box"><svg class="i"><use href="#euro"/></svg></span><span><b>Financement CPF et Pôle Emploi</b> (si premier permis)</span></li>
+    <li><span class="icon-box"><svg class="i"><use href="#map"/></svg></span><span><b>Subvention Île-de-France</b> (jusqu’à 1300 € pris en charge)</span></li>
+    <li><span class="icon-box"><svg class="i"><use href="#badge"/></svg></span><span><b>Jusqu’à 500 € d’aide</b> pour les apprentis et alternants</span></li>
+  </ul>
+  <div class="more">… Mais aussi <svg class="i"><use href="#arrow"/></svg></div>
+  <div class="photo"><img src="assets/smartphone.jpg" alt=""></div>
+  <div class="folio"><span>Govo · Le permis moto</span><span class="n">6</span></div>
+</section>
+
+<!-- ============ 7 · APPLICATION ============ -->
+<section class="page dark p7">
+  <span class="eyebrow">L’appli Govo</span>
+  <h2 class="h2" style="margin-top:4mm">Une application mobile pour vous accompagner <span>à chaque instant !</span></h2>
+  <div class="app-grid">
+    <div class="phones">
+      <img class="a" src="assets/app-parcours.png" alt="">
+      <img class="b" src="assets/app-conduite.png" alt="">
+    </div>
+    <div>
+      <ul class="feat-list">
+        <li><svg class="i"><use href="#check"/></svg>Paiement simplifié</li>
+        <li><svg class="i"><use href="#check"/></svg>Rappels automatiques</li>
+        <li><svg class="i"><use href="#check"/></svg>Support en ligne</li>
+        <li><svg class="i"><use href="#check"/></svg>Ressources en ligne</li>
+        <li><svg class="i"><use href="#check"/></svg>Communication simplifiée</li>
+        <li><svg class="i"><use href="#check"/></svg>Réservation flexible</li>
+        <li><svg class="i"><use href="#check"/></svg>Replanification facile des leçons</li>
+        <li><svg class="i"><use href="#check"/></svg>Suivi des progrès en temps réel</li>
+      </ul>
+      <div class="stores-mini">
+        <img src="assets/badge-google.png" alt="Disponible sur Google Play">
+        <img src="assets/badge-apple.png" alt="Télécharger dans l’App Store">
+      </div>
+    </div>
+  </div>
+  <div class="folio"><span>Govo · Le permis moto</span><span class="n">7</span></div>
+</section>
+
+<!-- ============ 8 · TARIFS ATTRACTIFS ============ -->
+<section class="page p8">
+  <span class="eyebrow">Nos tarifs</span>
+  <h2 class="h1">Des tarifs<br>… <span class="hl">attractifs</span> !</h2>
+  <div class="photo">
+    <img src="assets/motard-joie.jpg" alt="">
+    <div class="price-pills">
+      <div class="pp"><span>Permis moto A2</span><div class="price">690<small> €</small></div></div>
+      <div class="pp"><span>Accéléré 3 jours</span><div class="price">890<small> €</small></div></div>
+      <div class="pp"><span>Paiement</span><div class="price">4x<small> sans frais</small></div></div>
+    </div>
+  </div>
+  <div class="folio"><span>Govo · Le permis moto</span><span class="n">8</span></div>
+</section>
+
+<!-- ============ 9 · À LA CARTE / À L'UNITÉ ============ -->
+<section class="page p9">
+  <div class="sec-title"><h2 class="h2">Govo <span class="hl">à la carte</span></h2><span>Autres formations</span></div>
+  <div class="card carte">
+    <div class="row"><span class="icon-box"><svg class="i"><use href="#scooter"/></svg></span><div class="t"><b>Forfait moto AM – 50 cm³</b><span>Cyclomoteurs (scooters) de moins de 50 cm³ · Dès 14 ans</span></div><div class="price">250<small> €</small></div></div>
+    <div class="row"><span class="icon-box"><svg class="i"><use href="#moto"/></svg></span><div class="t"><b>Permis 125 cm³</b><span>Motos légères jusqu’à 125 cm³ · Dès 16 ans avec le permis A1</span></div><div class="price">220<small> €</small></div></div>
+    <div class="row"><span class="icon-box"><svg class="i"><use href="#moto"/></svg></span><div class="t"><b>Passerelle A2 vers A</b><span>Toutes les motos, quelle que soit leur puissance, et les 3 roues de plus de 15 kW</span></div><div class="price">220<small> €</small></div></div>
+    <div class="row"><span class="icon-box"><svg class="i"><use href="#quad"/></svg></span><div class="t"><b>Forfait quadricycle (sans permis)</b><span>Quadricycles légers (voitures sans permis)</span></div><div class="price">399<small> €</small></div></div>
+    <div class="row"><span class="icon-box"><svg class="i"><use href="#book"/></svg></span><div class="t"><b>Pack ETM</b><span>Code moto (examen théorique moto)</span></div><div class="price">150<small> €</small></div></div>
+  </div>
+
+  <div class="sec-title" style="margin-top:8mm"><h2 class="h2">Govo <span class="hl">à l’unité</span></h2><span>Prestations individuelles</span></div>
+  <div class="card unite">
+    <div>
+      <div class="row">Leçon de conduite plateau<b>55 €</b></div>
+      <div class="row">Leçon de conduite circulation<b>55 €</b></div>
+      <div class="row">Kit pédagogique<b>35 €</b></div>
+      <div class="row">Évaluation de départ<b>65 €</b></div>
+      <div class="row">Frais d’inscription<b>150 €</b></div>
+      <div class="row">Renouvellement de contrat<b>150 €</b></div>
+      <div class="row">Accompagnement à l’examen<b>82,50 €</b></div>
+    </div>
+    <div>
+      <div class="row">Présentation au code<b>30 €</b></div>
+      <div class="row">Pack web<b>30 €</b></div>
+      <div class="row">Passerelle A2 à A<b>220 €</b></div>
+      <div class="row">BSR scooter 50 cc<b>250 €</b></div>
+      <div class="row">Formation 125 cc<b>250 €</b></div>
+      <div class="row">Fabrication de permis<b>65 €</b></div>
+    </div>
+  </div>
+  <div class="included" style="margin-top:auto;margin-bottom:6mm">
+    <span class="icon-box"><svg class="i"><use href="#card"/></svg></span>
+    <p>Paiement en 4x sans frais <span>(via Floa) · Financement CPF et Pôle Emploi (si premier permis)</span></p>
+  </div>
+  <div class="folio"><span>Govo · Le permis moto</span><span class="n">9</span></div>
+</section>
+
+<!-- ============ 10 · DOCUMENTS ============ -->
+<section class="page p10">
+  <div class="hero-band" style="padding:9mm 9mm 8mm">
+    <span class="eyebrow" style="background:rgba(242,71,140,.16);border-color:rgba(242,71,140,.4);color:#f9a8d4">Inscription</span>
+    <h2 class="h2" style="margin-top:4mm">Vous y êtes <span>presque !</span></h2>
+    <p>Liste des documents à nous fournir :</p>
+  </div>
+  <div class="docs">
+    <div class="card doc"><span class="num">1</span><div><b>Pièce d’identité</b><p>Carte nationale d’identité, passeport ou titre de séjour en cours de validité.</p></div></div>
+    <div class="card doc"><span class="num">2</span><div><b>Justificatif de domicile</b><p>Facture de moins de 6 mois (électricité, gaz, téléphone fixe, etc.), attestation d’assurance logement, quittance de loyer ou attestation sur l’honneur de l’hébergeant accompagnée de la pièce d’identité de l’hébergeant.</p></div></div>
+    <div class="card doc"><span class="num">3</span><div><b>Photographies d’identité</b><p>Photos conformes aux normes en vigueur (4 photos).</p></div></div>
+    <div class="card doc"><span class="num">4</span><div><b>Attestation de recensement <span class="opt">16–18 ans</span></b><p>Pour les candidats âgés de 16 à 18 ans, il faut fournir l’attestation de recensement.</p></div></div>
+    <div class="card doc"><span class="num">5</span><div><b>Certificat de participation à la JDC <span class="opt">18–25 ans</span></b><p>Journée Défense et Citoyenneté : pour les candidats âgés de 18 à 25 ans, le certificat de participation à la JDC est requis.</p></div></div>
+    <div class="card doc"><span class="num">6</span><div><b>Permis de conduire <span class="opt">Si déjà obtenu</span></b><p>Si vous avez déjà passé des permis pour d’autres catégories de véhicules.</p></div></div>
+    <div class="card doc"><span class="num">7</span><div><b>Code de la route <span class="opt">Si déjà obtenu</span></b><p>Preuve de réussite à l’examen théorique du code de la route si vous l’avez déjà passé.</p></div></div>
+  </div>
+  <div class="folio"><span>Govo · Le permis moto</span><span class="n">10</span></div>
+</section>
+
+<!-- ============ 11 · CONTACT ============ -->
+<section class="page p11">
+  <div class="contact-head">
+    <div>
+      <span class="eyebrow">Nos agences</span>
+      <h2 class="h2" style="margin:4mm 0 2.5mm">On s’inscrit ?</h2>
+      <p class="lead">Appelez-nous, écrivez-nous ou passez nous rendre visite !</p>
+    </div>
+    <span class="mail-pill"><svg class="i"><use href="#mail"/></svg>hello@govo.fr</span>
+  </div>
+
+  <div class="agencies">
+    <div class="card agency">
+      <h3 class="h3"><span class="dot"></span>Boulogne-Billancourt</h3>
+      <ul>
+        <li><svg class="i"><use href="#pin"/></svg>4 Av. du Général Leclerc, 92100 Boulogne-Billancourt</li>
+        <li><svg class="i"><use href="#phone"/></svg><b>01 40 96 11 99</b></li>
+        <li><svg class="i"><use href="#mail"/></svg>csrconceptstore@gmail.com</li>
+      </ul>
+      <div class="legal">SAS – CSR CONCEPT STORE · Siret 918 135 633</div>
+    </div>
+    <div class="card agency">
+      <h3 class="h3"><span class="dot"></span>Issy-les-Moulineaux</h3>
+      <ul>
+        <li><svg class="i"><use href="#pin"/></svg>30 Bd des Îles, 92130 Issy-les-Moulineaux</li>
+        <li><svg class="i"><use href="#phone"/></svg><b>01 47 65 02 32</b></li>
+        <li><svg class="i"><use href="#mail"/></svg>csrissylesmoulineaux@gmail.com</li>
+      </ul>
+      <div class="legal">SAS – CSR ISSY LES MOULINEAUX · Siret 812 575 017</div>
+    </div>
+    <div class="card agency">
+      <h3 class="h3"><span class="dot"></span>Paris 15</h3>
+      <ul>
+        <li><svg class="i"><use href="#pin"/></svg>114 Rue Saint-Charles, 75015 Paris</li>
+        <li><svg class="i"><use href="#phone"/></svg><b>01 42 93 09 19</b></li>
+        <li><svg class="i"><use href="#mail"/></svg>hello@govo.fr</li>
+      </ul>
+      <div class="legal">SAS – CSR PARIS 15 · Siret 984 276 808</div>
+    </div>
+    <div class="card agency">
+      <h3 class="h3"><span class="dot"></span>Courbevoie</h3>
+      <ul>
+        <li><svg class="i"><use href="#pin"/></svg>1 Place Hérold, 92400 Courbevoie</li>
+        <li><svg class="i"><use href="#phone"/></svg><b>01 47 88 69 48</b></li>
+        <li><svg class="i"><use href="#mail"/></svg>govocourbevoie@gmail.com</li>
+      </ul>
+      <div class="legal">SASU – GOVO COURBEVOIE · Siret 944 909 829</div>
+    </div>
+  </div>
+
+  <div class="app-row">
+    <div class="card app-cta">
+      <span class="eyebrow">Encore plus simple</span>
+      <h3 class="h2" style="margin-top:3.5mm">Inscrivez-vous en ligne avec l’appli Govo</h3>
+      <p>Téléchargez l’application Govo pour vous inscrire en ligne.</p>
+      <div class="stores">
+        <img src="assets/badge-google.png" alt="Disponible sur Google Play">
+        <img src="assets/badge-apple.png" alt="Télécharger dans l’App Store">
+      </div>
+    </div>
+    <div class="photo"><img src="assets/amis.jpg" alt=""></div>
+  </div>
+  <div class="folio"><span>Govo · Le permis moto</span><span class="n">11</span></div>
+</section>
+
+<!-- ============ 12 · DOS ============ -->
+<section class="page p12">
+  <div class="photo"><img src="assets/route.jpg" alt=""></div>
+  <div class="back-row">
+    <div class="back-logo">
+      <img src="assets/logo.png" alt="Govo Auto Moto École">
+      <p>Boulogne-Billancourt · Issy-les-Moulineaux<br>Paris 15 · Courbevoie</p>
+    </div>
+    <div class="back-claim">
+      <h2 class="h2">L’auto-école <span>nouvelle génération</span></h2>
+      <span class="mail-pill"><svg class="i"><use href="#mail"/></svg>hello@govo.fr</span>
+    </div>
+  </div>
+  <div class="back-foot">
+    <span>Imprimé par nos soins – Ne pas jeter sur la voie publique</span>
+    <img src="assets/triman.png" alt="">
+  </div>
+</section>
+
+</body>
+</html>
