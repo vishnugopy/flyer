@@ -176,9 +176,12 @@ est imprimée en corps ~40 pt contre ~7 pt pour le total.
 > **Un crédit vous engage et doit être remboursé. Vérifiez vos capacités de remboursement avant de
 > vous engager.**
 
-Le **montant total dû** doit être au moins aussi lisible que la mensualité : passer « soit 1 330 €
-en une fois » à la même taille que « 133 €/mois », ou inverser la hiérarchie (total en gros,
-mensualité en dessous).
+**Règle de taille (art. L312-8)** : le TAEG et sa nature (fixe), le montant total dû et le montant
+des échéances doivent tous figurer dans le corps du texte, en caractères **plus grands que toute autre
+information relative au financement**. Afficher la mensualité en gros est donc permis, à condition
+que « TAEG fixe 0 % » et « soit X € en une fois » soient dans le bloc prix et pas relégués en petit.
+Appliqué : mensualité en gros (format du site), puis ligne verte « en 10 fois sans frais · TAEG fixe
+0 % / soit X € TTC en une fois » en 8,2 pt, au-dessus des autres mentions de financement (7,3 pt).
 
 ⚠️ Demande à Alma son **kit de mentions légales commerçant** (identité juridique complète, numéro
 ORIAS/ACPR, logo imposé) et reprends-le mot pour mot : c'est Alma le prêteur, la formulation exacte

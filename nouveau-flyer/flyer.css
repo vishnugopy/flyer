@@ -108,10 +108,11 @@ svg.i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-l
 .p4 .photo img{object-position:50% 55%}
 .fast{display:flex;gap:6mm;align-items:center;margin-top:5mm;padding:8mm 8mm;flex:none}
 .fast .h2{font-size:26pt;line-height:1.05}
+.fast .h2 .hl{white-space:nowrap}
 .fast .checks{display:grid;grid-template-columns:1fr 1fr;column-gap:5mm;margin-top:5mm;font-size:10.5pt}
 .fast .left{flex:1}
-.fast .right{width:44mm;flex:none;text-align:center;background:var(--lilac-soft);border-radius:4.5mm;padding:5.5mm 3mm}
-.fast .right .price{font-size:40pt}
+.fast .right{width:52mm;flex:none;text-align:center;background:var(--lilac-soft);border-radius:4.5mm;padding:5.5mm 3mm}
+.fast .right .price{font-size:34pt}
 .fast .right .green{font-size:8pt;display:block;margin-top:2mm;line-height:1.35}
 .fast .right .lbl{font-size:7.5pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lilac-deep);margin-bottom:2mm}
 
