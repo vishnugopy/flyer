@@ -19,6 +19,9 @@ b,strong{color:var(--ink);font-weight:600}
 
 .page{width:210mm;height:297mm;position:relative;overflow:hidden;background:var(--page);padding:15mm 14mm 14mm;margin:0 auto;break-after:page;display:flex;flex-direction:column}
 @media screen{.page{margin:8mm auto;box-shadow:0 2mm 8mm rgba(16,12,54,.18)}}
+/* Les ombres floues deviennent des masques de transparence dans le PDF : certains lecteurs mobiles
+   les affichent en rectangles pleins (bleus/violets). On les retire à l'impression. */
+@media print{*{box-shadow:none!important;text-shadow:none!important}.phones img{filter:none!important}}
 .page:last-child{break-after:auto}
 
 /* Typo */

@@ -50,7 +50,7 @@ Les places d'examen pratique sont attribuées par l'administration (RdvPermis) :
 
 **Badge p. 2 (auto)**
 - ~~Examen garanti — une date d'examen garantie dans chaque formule~~
-- → **Passage à l'examen planifié** — nous déposons votre demande de place dès la validation de votre formation
+- → **Passage à l'examen planifié** — nous déposons votre demande de place dès votre inscription
 
 **Puce répétée dans chaque formule (auto p. 3, 4, 5 ; moto p. 6)**
 - ~~Date d'examen garantie~~
@@ -61,7 +61,7 @@ Les places d'examen pratique sont attribuées par l'administration (RdvPermis) :
 - → … à votre rythme ou en accéléré, avec un accompagnement jusqu'au jour de l'examen.
 
 **Encart « Dans chaque formule » (auto p. 3)**
-- → **Dans chaque formule : demande de place d'examen dès la fin de formation, coaching personnalisé
+- → **Dans chaque formule : demande de place d'examen dès votre inscription, coaching personnalisé
   et paiement en 10 fois sans frais.**
 
 **Titre p. 4 (auto)**
@@ -70,11 +70,11 @@ Les places d'examen pratique sont attribuées par l'administration (RdvPermis) :
 
 **Carte « Rapide et intensif » (auto p. 2)**
 - ~~… jusqu'à 4 h de conduite par jour et une date d'examen garantie à la fin du stage.~~
-- → … jusqu'à 4 h de conduite par jour, et votre dossier déposé à l'examen dès la fin du stage.
+- → … jusqu'à 4 h de conduite par jour, et votre dossier déposé à l'examen dès votre inscription.
 
 **Note de bas de page à ajouter sur chaque page qui parle d'examen**
 > \*Les dates de l'épreuve pratique sont attribuées par les services de l'État (RdvPermis). Govo
-> s'engage à déposer votre demande de place dès la validation de votre formation, mais ne garantit
+> s'engage à déposer votre demande de place dès votre inscription, mais ne garantit
 > ni la date de passage ni la réussite à l'examen.
 
 ---
@@ -145,8 +145,8 @@ rendez-vous flexibles avec l'option Pass+ ») → ajouter « (199 €) ».
 
 > Cette formule comprend : [13/20/30] heures de conduite, l'évaluation de départ, les frais
 > d'inscription et la présentation à l'examen pratique.
-> Elle ne comprend pas : [redevance ETG 30 €, kit pédagogique 35 €, heure supplémentaire 65 €,
-> frais de renouvellement 120 €, fabrication du permis 65 €].
+> Elle ne comprend pas : [redevance ETG 30 €, kit pédagogique 35 €, heure supplémentaire 69 €,
+> frais de renouvellement de contrat 150 €, fabrication du permis 65 €].
 
 **Mention de bas de page tarifs**
 
@@ -276,8 +276,8 @@ prestation sur la même page.
 - Doublons à fusionner : « Forfait moto AM – 50 cm³ » / « BSR scooter 50 cc » (250 €) et
   « Passerelle A2 vers A » / « Passerelle A2 à A » (220 €).
 
-**Écarts entre les deux flyers à vérifier** : accompagnement à l'examen 65 € (auto) vs 82,50 €
-(moto) ; renouvellement 120 € (auto) vs 150 € (moto).
+**Écarts entre les deux flyers à vérifier** : accompagnement à l'examen 69 € (auto) vs 90 €
+(moto). Renouvellement de contrat harmonisé à 150 € (auto et moto).
 
 ---
 
